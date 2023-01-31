@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, ImageBackground, StyleSheet, FlatList, TouchableOpacity, Platform, Alert } from 'react-native'
+import {
+    View,
+    Text,
+    ImageBackground,
+    StyleSheet,
+    FlatList,
+    TouchableOpacity,
+    Platform,
+    Alert
+} from 'react-native'
 
 import AsyncStorage from "@react-native-community/async-storage"
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -12,11 +21,10 @@ import tomorrowImage from '../../assets/imgs/tomorrow.jpg'
 import weekImage from '../../assets/imgs/week.jpg'
 import monthImage from '../../assets/imgs/month.jpg'
 
-import {server, showError } from '../common'
+import { server, showError } from '../common'
 import commonStyles from '../commonStyles'
 import Task from '../components/Task'
 import AddTask from './AddTask'
-import { Switch } from 'react-native-gesture-handler'
 
 const initialState = {
     showDoneTasks: true,
@@ -33,17 +41,21 @@ export default class TaskList extends Component {
     componentDidMount = async () => {
         const stateString = await AsyncStorage.getItem('tasksState')
         const savedState = JSON.parse(stateString) || initialState
-        this.setState({showDoneTasks: savedState.showDoneTasks}, this.filterTasks)
+        this.setState({
+            showDoneTasks: savedState.showDoneTasks
+        }, this.filterTasks)
 
         this.loadTasks()
     }
 
     loadTasks = async () => {
-        try{
-            const maxDate = moment().add({ days: this.props.daysAhead }).format('YYYY-MM-DD 23:59:59')
+        try {
+            const maxDate = moment()
+                .add({ days: this.props.daysAhead})
+                .format('YYYY-MM-DD 23:59:59')
             const res = await axios.get(`${server}/tasks?date=${maxDate}`)
             this.setState({ tasks: res.data }, this.filterTasks)
-        }catch(e){
+        } catch(e) {
             showError(e)
         }
     }
@@ -62,14 +74,16 @@ export default class TaskList extends Component {
         }
 
         this.setState({ visibleTasks })
-        AsyncStorage.setItem('tasksState', JSON.stringify({ showDoneTasks: this.state.showDoneTasks }))
+        AsyncStorage.setItem('tasksState', JSON.stringify({
+            showDoneTasks: this.state.showDoneTasks
+        }))
     }
 
     toggleTask = async taskId => {
         try {
             await axios.put(`${server}/tasks/${taskId}/toggle`)
-            await this.loadTasks()
-        }catch(e){
+            this.loadTasks()
+        } catch(e) {
             showError(e)
         }
     }
@@ -80,29 +94,29 @@ export default class TaskList extends Component {
             return 
         }
 
-        try{
+        try {
             await axios.post(`${server}/tasks`, {
-                desc: newTask.desc,
-                estimateAt: newTask.date
+               desc: newTask.desc,
+               estimateAt: newTask.date 
             })
 
             this.setState({ showAddTask: false }, this.loadTasks)
-        }catch(e){
+        } catch(e) {
             showError(e)
-        }        
+        }
     }
 
     deleteTask = async taskId => {
-        try{
+        try {
             await axios.delete(`${server}/tasks/${taskId}`)
             this.loadTasks()
-        }catch(e){
+        } catch(e) {
             showError(e)
         }
     }
 
     getImage = () => {
-        switch(this.props.daysAhead){
+        switch(this.props.daysAhead) {
             case 0: return todayImage
             case 1: return tomorrowImage
             case 7: return weekImage
@@ -111,7 +125,7 @@ export default class TaskList extends Component {
     }
 
     getColor = () => {
-        switch(this.props.daysAhead){
+        switch(this.props.daysAhead) {
             case 0: return commonStyles.colors.today
             case 1: return commonStyles.colors.tomorrow
             case 7: return commonStyles.colors.week
@@ -148,7 +162,10 @@ export default class TaskList extends Component {
                         keyExtractor={item => `${item.id}`}
                         renderItem={({item}) => <Task {...item} onToggleTask={this.toggleTask} onDelete={this.deleteTask} />} />
                 </View>
-                <TouchableOpacity style={[styles.addButton, { backgroundColor: this.getColor() }]} 
+                <TouchableOpacity style={[
+                        styles.addButton,
+                        { backgroundColor: this.getColor() 
+                    }]} 
                     activeOpacity={0.7}
                     onPress={() => this.setState({ showAddTask: true })}>
                     <Icon name="plus" size={20}

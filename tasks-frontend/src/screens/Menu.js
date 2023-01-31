@@ -1,6 +1,7 @@
 import React from 'react'
 import { Platform, ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { DrawerItems } from 'react-navigation-drawer'
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
+import { CommonActions } from '@react-navigation/native';
 import { Gravatar } from 'react-native-gravatar'
 import commonStyles from '../commonStyles'
 
@@ -13,20 +14,34 @@ export default props => {
     const logout = () => {
         delete axios.defaults.headers.common['Authorization']
         AsyncStorage.removeItem('userData')
-        props.navigation.navigate('AuthOrApp')
+        props.navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [
+                    {
+                        name: 'Auth',
+                    },
+                ],
+            })
+        )
     }
 
     return (
-        <ScrollView>
-            <Text style={styles.title}>Tasks</Text>
+        <DrawerContentScrollView>
             <View style={styles.header}>
-                <Gravatar style={styles.avatar} options={{
-                    email: props.navigation.getParam('email'),
-                    secure: true
-                }} />
+                <Text style={styles.title}>Tasks</Text>
+                <Gravatar style={styles.avatar}
+                    options={{
+                        email: props.email,
+                        secure: true
+                    }} />
                 <View style={styles.userInfo}>
-                    <Text style={styles.name}>{props.navigation.getParam('name')}</Text>
-                    <Text style={styles.email}>{props.navigation.getParam('email')}</Text>
+                    <Text style={styles.name}>
+                        {props.name}
+                    </Text>
+                    <Text style={styles.email}>
+                        {props.email}
+                    </Text>
                 </View>
                 <TouchableOpacity onPress={logout}>
                     <View style={styles.logoutIcon}>
@@ -34,23 +49,22 @@ export default props => {
                     </View>
                 </TouchableOpacity>
             </View>
-
-            <DrawerItems {...props} />
-        </ScrollView>
+            <DrawerItemList {...props} />
+        </DrawerContentScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     header: {
         borderBottomWidth: 1,
-        borderColor: '#ddd'
+        borderColor: '#DDD'
     },
     title: {
         color: '#000',
-        fontSize: 30,
         fontFamily: commonStyles.fontFamily,
-        padding: 10,
-        paddingTop: Platform.OS === 'ios' ? 70 : 30
+        fontSize: 30,
+        paddingTop: Platform.OS === 'ios' ? 70 : 30,
+        padding: 10
     },
     avatar: {
         width: 60,
@@ -58,23 +72,22 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderRadius: 30,
         margin: 10,
-        backgroundColor: '#222',
+        backgroundColor: '#222'
     },
     userInfo: {
         marginLeft: 10,
-        
     },
     name: {
         fontFamily: commonStyles.fontFamily,
         fontSize: 20,
+        color: commonStyles.colors.mainText,
         marginBottom: 5,
-        color: commonStyles.colors.mainText
     },
     email: {
         fontFamily: commonStyles.fontFamily,
         fontSize: 15,
         color: commonStyles.colors.subText,
-        marginBottom: 10
+        marginBottom: 10,
     },
     logoutIcon: {
         marginLeft: 10,

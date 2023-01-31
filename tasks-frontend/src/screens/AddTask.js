@@ -1,7 +1,17 @@
 import React, { Component } from 'react'
-import { View, Text, Modal, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, TextInput, Platform } from 'react-native'
-import DateTimePicker from '@react-native-community/datetimepicker'
+import {
+    Platform,
+    Modal,
+    View,
+    Text,
+    TouchableOpacity,
+    TextInput,
+    StyleSheet,
+    TouchableWithoutFeedback
+} from 'react-native'
+
 import moment from 'moment'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 import commonStyles from '../commonStyles'
 
@@ -25,12 +35,12 @@ export default class AddTask extends Component {
 
     getDatePicker = () => {
         let datePicker = <DateTimePicker value={this.state.date}
-                            onChange={(_,date) => this.setState({ date, showDatePicker: false })}
-                            mode='date'
-                        />
+            onChange={(_, date) => this.setState({ date, showDatePicker: false })}
+            mode='date' />
+        
         const dateString = moment(this.state.date).format('ddd, D [de] MMMM [de] YYYY')
 
-        if(Platform.OS === 'android'){
+        if(Platform.OS === 'android') {
             datePicker = (
                 <View>
                     <TouchableOpacity onPress={() => this.setState({ showDatePicker: true })}>
@@ -42,47 +52,37 @@ export default class AddTask extends Component {
                 </View>
             )
         }
-
-        return datePicker                
+        
+        return datePicker
     }
 
-    render(){
-
+    render() {
         return (
-            <Modal transparent={true} 
-                visible={this.props.isVisible}
+            <Modal transparent={true} visible={this.props.isVisible}
                 onRequestClose={this.props.onCancel}
-                animationType='slide'
-            >
+                animationType='slide'>
                 <TouchableWithoutFeedback
-                    onPress={this.props.onCancel}
-                >
+                    onPress={this.props.onCancel}>
                     <View style={styles.background}></View>
                 </TouchableWithoutFeedback>
-                
                 <View style={styles.container}>
                     <Text style={styles.header}>Nova Tarefa</Text>
-                   
-                    <TextInput style={styles.input}
-                        placeholder="informe a descrição"
-                        onChangeText={ desc => this.setState({ desc })}
-                        value={this.state.desc}
-                    />
-
+                    <TextInput style={styles.input} 
+                        placeholder="Informe a Descrição..."
+                        onChangeText={desc => this.setState({ desc })}
+                        value={this.state.desc} />
                     {this.getDatePicker()}
-
                     <View style={styles.buttons}>
                         <TouchableOpacity onPress={this.props.onCancel}>
                             <Text style={styles.button}>Cancelar</Text>
                         </TouchableOpacity>
-
                         <TouchableOpacity onPress={this.save}>
                             <Text style={styles.button}>Salvar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                
-                <TouchableWithoutFeedback onPress={this.props.onCancel}>
+                <TouchableWithoutFeedback
+                    onPress={this.props.onCancel}>
                     <View style={styles.background}></View>
                 </TouchableWithoutFeedback>
             </Modal>
@@ -106,17 +106,16 @@ const styles = StyleSheet.create({
         padding: 15,
         fontSize: 18
     },
-    input:{
+    input: {
         fontFamily: commonStyles.fontFamily,
-        width: '90%',
         height: 40,
         margin: 15,
-        backgroundColor: '#fff',
+        backgroundColor: '#FFF',
         borderWidth: 1,
-        borderColor: '#e3e3e3',
+        borderColor: '#E3E3E3',
         borderRadius: 6
     },
-    buttons:{
+    buttons: {
         flexDirection: 'row',
         justifyContent: 'flex-end'
     },
