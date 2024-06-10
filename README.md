@@ -13,23 +13,23 @@ The application was developed with React and Node/Express applying the following
 ## Screens
 <b>Login:</b>
 
-![login](https://github.com/Thiago-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-login.jpg?raw=true)
+![login](https://github.com/Iris-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-login.jpg?raw=true)
 
 <b>Register:</b>
 
-![register](https://github.com/Thiago-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-register.jpg?raw=true)
+![register](https://github.com/Iris-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-register.jpg?raw=true)
 
 <b>Home:</b>
 
-![home](https://github.com/Thiago-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-home.jpg?raw=true)
+![home](https://github.com/Iris-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-home.jpg?raw=true)
 
 <b>New Task:</b>
 
-![new-task](https://github.com/Thiago-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-new-task.jpg?raw=true)
+![new-task](https://github.com/Iris-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-new-task.jpg?raw=true)
 
 <b>Navigation:</b>
 
-![nav](https://github.com/Thiago-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-nav.jpg?raw=true)
+![nav](https://github.com/Iris-kon/Tasks/blob/master/tasks-frontend/assets/design/tasks-nav.jpg?raw=true)
 
 ## Used Technologies
 The project utilises the following technologies:
@@ -46,7 +46,7 @@ The project utilises the following technologies:
 ## Run project
 Copy the project to the desired folder with the following command:
 
-### `git clone https://github.com/Thiago-kon/Tasks`
+### `git clone https://github.com/Iris-kon/Tasks`
 
 Create a new database in postgres with the name `tasks` or a name of your preference
 
